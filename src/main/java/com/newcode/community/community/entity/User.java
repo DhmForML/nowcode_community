@@ -3,6 +3,7 @@ package com.newcode.community.community.entity;
 import java.util.Date;
 
 public class User {
+
     private int id;
     private String username;
     private String password;
@@ -98,7 +99,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +
                 ", email='" + email + '\'' +
@@ -109,4 +110,5 @@ public class User {
                 ", createTime=" + createTime +
                 '}';
     }
+
 }

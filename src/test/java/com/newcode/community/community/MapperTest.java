@@ -1,12 +1,9 @@
 package com.newcode.community.community;
 
-import com.newcode.community.community.dao.DiscussPostMapper;
-import com.newcode.community.community.dao.LoginTicketMapper;
-import com.newcode.community.community.dao.UserMapper;
-import com.newcode.community.community.entity.DiscussPost;
-import com.newcode.community.community.entity.LoginTicket;
-import com.newcode.community.community.entity.User;
+import com.newcode.community.community.dao.*;
+import com.newcode.community.community.entity.*;
 
+import com.newcode.community.community.service.DiscussPostService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,54 @@ public class MapperTest {
 
     @Autowired
     LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    CommentMapper commentMapper;
+
+    @Autowired
+    MessageMapper messageMapper;
+
+    @Test
+    public void testSelectMessage(){
+        List<Message> messageList = messageMapper.selectConversations(111,0,20);
+        for(Message message : messageList){
+            System.out.println(message);
+        }
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        List<Message> letterList = messageMapper.selectLetters("111_112",0,20);
+        for(Message letter : letterList){
+            System.out.println(letter);
+        }
+        count = messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+
+        count = messageMapper.selectLetterUnreadCount(131,"111_131");
+        System.out.println(count);
+
+    }
+
+    @Test
+    public void testSelectComment(){
+        List<Comment> commentList = commentMapper.selectCommentsByEntity(1,228,0,Integer.MAX_VALUE);
+        System.out.println(commentList);
+
+        int count = commentMapper.selectCountByEntity(1,228);
+        System.out.println(count);
+    }
+
+    @Test
+    public void testInsertDiscussPost(){
+        DiscussPost discussPost = new DiscussPost();
+        discussPost.setUserId(200);
+        discussPost.setTitle("test");
+        discussPost.setContent("this is a test word");
+        discussPost.setCreateTime(new Date());
+        int i = discussPostMapper.insertDiscussPost(discussPost);
+        System.out.println(i);
+        System.out.println(discussPost.getId());
+    }
 
     @Test
     public void testSelectPosts(){
@@ -101,6 +146,12 @@ public class MapperTest {
         loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
 
+    }
+
+    @Test
+    public void testSelectDiscussPostById(){
+        DiscussPost post = discussPostMapper.selectDiscussPostById(109);
+        System.out.println(post);
     }
 
 }

@@ -5,7 +5,10 @@
     <title>Teacher</title>
 </head>
 <body>
-    <p th:text="${name}">：</p>
-    <p th:text="${age}"></p>
+    <ul class="list-unstyled">
+        <li class="media pb-3 pt-3 mb-3 border-bottom" th:each="map:${discussPosts}">
+            <h1 th:text="${map.user.username}"></h1>
+        </li>
+    </ul>
 </body>
 </html>

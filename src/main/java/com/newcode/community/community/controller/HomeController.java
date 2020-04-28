@@ -19,31 +19,41 @@ import java.util.Map;
 
 @Controller
 public class HomeController {
-    @Autowired
-    DiscussPostService discussPostService;
 
     @Autowired
-    UserService userService;
+    private DiscussPostService discussPostService;
 
-    @RequestMapping(path = "/index",method = RequestMethod.GET)
-    public String  getIndexPage(Model model,Page page){
-        //方法调用前，SpringMVC会自动实例化Model和Page,并将Page注入Model中
-        //所以，在thymeleaf中可以直接访问Page对象中的数据
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(path = "/index", method = RequestMethod.GET)
+    public String getIndexPage(Model model, Page page) {
+        // 方法调用钱,SpringMVC会自动实例化Model和Page,并将Page注入Model.
+        // 所以,在thymeleaf中可以直接访问Page对象中的数据.
         page.setRows(discussPostService.findDiscussPostRows(0));
-        page.setPath("/index");     //这个/index表示访问路径
+        page.setPath("/index");
 
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0,page.getOffset(),page.getLimit());
-        List<Map<String,Object>> discussPosts = new ArrayList<>();
-        if (list!=null){
-            for (DiscussPost post:list){
-                Map<String,Object> map = new HashMap<>();
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<Map<String, Object>> discussPosts = new ArrayList<>();
+        if (list != null) {
+            for (DiscussPost post : list) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("post", post);
                 User user = userService.findUserById(post.getUserId());
-                map.put("post",post);
-                map.put("user",user);
+                if(user == null){           //防止数据库里没查到该用户，然后前端显示异常。
+                    continue;
+                }
+                map.put("user", user);
                 discussPosts.add(map);
             }
         }
-            model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("discussPosts", discussPosts);
         return "/index";
     }
+
+    @RequestMapping(value = "/error",method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
+    }
+
 }

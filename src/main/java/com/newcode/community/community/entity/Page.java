@@ -2,9 +2,9 @@ package com.newcode.community.community.entity;
 
 public class Page {
     //当前页码
-    private int current=1;
+    private int current = 1;
     //显示上限
-    private int limit=10;
+    private int limit = 10;
     //数据总数（用来计算总页数）
     private int rows;
     //查询路径（用于复用分页链接）

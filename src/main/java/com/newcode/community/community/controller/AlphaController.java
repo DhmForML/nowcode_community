@@ -1,12 +1,29 @@
 package com.newcode.community.community.controller;
 
+import com.newcode.community.community.entity.DiscussPost;
+import com.newcode.community.community.entity.Page;
+import com.newcode.community.community.entity.User;
+import com.newcode.community.community.service.DiscussPostService;
+import com.newcode.community.community.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class AlphaController {
+
+    @Autowired
+    DiscussPostService discussPostService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/students",method = RequestMethod.GET)
     @ResponseBody
@@ -45,6 +62,8 @@ public class AlphaController {
     public String getSchool(Model model){           //前端控制器持有Model
         model.addAttribute("name","北京大学");
         model.addAttribute("age",120);
+
         return "/demo/view";            //这是返回的路径
     }
+
 }
