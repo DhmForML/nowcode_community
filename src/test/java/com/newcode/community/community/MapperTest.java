@@ -154,4 +154,20 @@ public class MapperTest {
         System.out.println(post);
     }
 
+    @Test
+    public void testSelectNotice(){
+        Message message = messageMapper.selectLatestNotice(111,"like");
+        System.out.println(message);
+        message = messageMapper.selectLatestNotice(111,"comment");
+        System.out.println(message);
+        message = messageMapper.selectLatestNotice(111,"follow");
+        System.out.println(message);
+
+        int count = messageMapper.selectNoticeCount(111,"like");
+        System.out.println(count);
+
+        count = messageMapper.selectNoticeUnreadCount(111,"like");
+        System.out.println(count);
+    }
+
 }

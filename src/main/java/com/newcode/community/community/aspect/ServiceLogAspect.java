@@ -30,6 +30,9 @@ public class ServiceLogAspect {
         //实现记录用户登录的日志
         //用户[1.2.3.4]，在[xxx]，访问了[com.newcode.community.community.service.xxx()]
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(attributes == null){
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();        //获取ip地址
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());    //格式化日期
