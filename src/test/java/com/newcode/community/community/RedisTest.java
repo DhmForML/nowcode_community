@@ -11,6 +11,9 @@ import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -63,17 +66,31 @@ public class RedisTest {
     @Test
     public void testLists(){
         String redisKey = "test:ids";
-        redisTemplate.opsForList().leftPush(redisKey,101);
-        redisTemplate.opsForList().leftPush(redisKey,102);
-        redisTemplate.opsForList().leftPush(redisKey,103);
 
-        System.out.println(redisTemplate.opsForList().size(redisKey));
-        System.out.println(redisTemplate.opsForList().index(redisKey,0));
-        System.out.println(redisTemplate.opsForList().range(redisKey,0,2));
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(110);
+        list.add(120);
+        list.add(130);
+        redisTemplate.opsForList().leftPushAll(redisKey,list);
+        System.out.println(redisTemplate.opsForList().range(redisKey,0,-1));
+        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
+        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
+        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
 
-        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
-        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
-        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
+
+//        redisTemplate.opsForList().leftPush(redisKey,101);
+//        redisTemplate.opsForList().leftPush(redisKey,102);
+//        redisTemplate.opsForList().leftPush(redisKey,103);
+//
+//        System.out.println(redisTemplate.opsForList().range(redisKey,0,-1));
+//
+//        System.out.println(redisTemplate.opsForList().size(redisKey));
+//        System.out.println(redisTemplate.opsForList().index(redisKey,0));
+//        System.out.println(redisTemplate.opsForList().range(redisKey,0,2));
+//
+//        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
+//        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
+//        System.out.println(redisTemplate.opsForList().leftPop(redisKey));
     }
 
     @Test

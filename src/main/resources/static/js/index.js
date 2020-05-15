@@ -3,6 +3,14 @@ $(function(){
 });
 
 function publish() {
+
+    // //发送ajax请求之前，将CSRF令牌设置到请求头中
+    // var token = $("meta[name='_csrf']").attr("content");
+    // var header = $("meta[name='_csrf_header']").attr("content");
+    // $(document).ajaxsend(function (e,xhr,options) {
+    //     xhr.setRequestHeader(header,token);
+    // });
+
     $("#publishModal").modal("hide");
     //获取标题和内容
     var title  = $("#recipient-name").val();

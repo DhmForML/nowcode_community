@@ -5,10 +5,13 @@ import com.newcode.community.community.entity.Event;
 import com.newcode.community.community.entity.User;
 import com.newcode.community.community.event.EventProducer;
 import com.newcode.community.community.service.LikeService;
+import com.newcode.community.community.service.ScoreService;
 import com.newcode.community.community.util.CommunityConstant;
 import com.newcode.community.community.util.CommunityUtil;
 import com.newcode.community.community.util.HostHolder;
+import com.newcode.community.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +31,9 @@ public class LikeController implements CommunityConstant {
 
     @Autowired
     EventProducer eventProducer;
+
+    @Autowired
+    ScoreService scoreService;
 
     @LoginRequired
     @RequestMapping(value = "/like",method = RequestMethod.POST)
@@ -58,6 +64,10 @@ public class LikeController implements CommunityConstant {
             eventProducer.fireEvent(event);
         }
 
+        if(entityType == ENTITY_TYPE_POST){
+            //计算帖子分数
+            scoreService.addPostScore(entityId);
+        }
 
         return CommunityUtil.getJSONString(0,null,map);
     }
